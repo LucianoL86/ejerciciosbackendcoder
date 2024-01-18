@@ -17,8 +17,8 @@ const chat = async (chatBox) => {
     socket.emit('authenticated', user)
 
     chatBox.addEventListener('keyup', e => {
-        if(e.key === 'Enter') {
-            if(chatBox.value.trim().length > 0) {
+        if (e.key === 'Enter') {
+            if (chatBox.value.trim().length > 0) {
                 socket.emit('message-from-client', { user, message: chatBox.value })
                 chatBox.value = ''
             }
@@ -29,10 +29,28 @@ const chat = async (chatBox) => {
         const log = document.getElementById('messageslogs')
         let messagesInFontend = ''
         data.forEach(
-            message => (messagesInFontend +- `<strong> ${message.user}:</strong> ${message.message}
+            message => (messagesInFontend += `<strong> ${message.user}:</strong> ${message.message}
             <br>`)
         )
         log.innerHTML = messagesInFontend
+    })
+
+    socket.on('new-user', data => {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer
+                toast.onmouseleave = Swal.resumeTimer
+            }
+        })
+        Toast.fire({
+            icon: "success",
+            title: `${data} se ha unido al chat`
+        });
     })
 }
 
