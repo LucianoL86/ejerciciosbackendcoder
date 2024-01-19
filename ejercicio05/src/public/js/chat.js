@@ -19,7 +19,7 @@ const chat = async (chatBox) => {
     chatBox.addEventListener('keyup', e => {
         if (e.key === 'Enter') {
             if (chatBox.value.trim().length > 0) {
-                socket.emit('message-from-client', { user, message: chatBox.value })
+                socket.emit('message', { user, message: chatBox.value })
                 chatBox.value = ''
             }
         }
@@ -35,7 +35,7 @@ const chat = async (chatBox) => {
         log.innerHTML = messagesInFontend
     })
 
-    socket.on('new-user', data => {
+    socket.on('newUser', data => {
         const Toast = Swal.mixin({
             toast: true,
             position: "top-end",

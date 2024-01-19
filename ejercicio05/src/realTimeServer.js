@@ -1,6 +1,7 @@
 import { Server } from 'socket.io'
+import ChatDao from './DAOs/mongodb/chat.dao.js'
 
-const messages = []
+const Chat = new ChatDao()
 
 const realTimeServer = (httpServer) => {
     const io = new Server(httpServer)
@@ -8,16 +9,27 @@ const realTimeServer = (httpServer) => {
     io.on('connection', (socket) => {
         console.log(`New client connected: ${socket.id}`)
 
-        socket.on('message-from-client', data => {
-            messages.push(data)
+        socket.on('message', async data => {
+            try {
+                await Chat.create(data)
+                const message = await Chat.getAll()
+
+                io.emit('messagelogs', message)
+            }catch (error) {
+                console.log(error)
+            }
             
-            io.emit('messagelogs', messages)
         })
 
-        socket.on('authenticated', data => {
-            socket.emit('messagelogs', messages)
-
-            socket.broadcast.emit('new-user', data)
+        socket.on('authenticated', async data => {
+            try {
+                const messages = await Chat.getAll()
+                socket.emit('messagelogs', messages)
+                socket.broadcast.emit('newUser', data)
+            }
+            catch (error) {
+                console.log(error)
+            }
         })
     })
 }
