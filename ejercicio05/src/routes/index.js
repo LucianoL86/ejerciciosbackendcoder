@@ -5,7 +5,7 @@ import cartController from '../controllers/controller.cart.js'
 const router = app => {
     app.use('/products', productsController)
     app.use('/chat', chatController)
-    app.use('carts', cartController)
+    app.use('/carts', cartController)
 }
 
 

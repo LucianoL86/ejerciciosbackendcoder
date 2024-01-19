@@ -9,6 +9,12 @@ router.get('/', async (req, res) => {
     res.json({ message: products })
 })
 
+router.get('/:id', async (req, res) => {
+    const { id } = req.params
+    const product = await productsModel.findById(id)
+    res.json({ message: product })
+})
+
 
 router.post('/', async (req, res) => {
     const { title, description, category, price, thumbnail, code, stock } = req.body
