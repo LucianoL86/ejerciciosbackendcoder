@@ -1,5 +1,5 @@
 function auth(req, res, next) {
-    if (req.session && req.session.admin) return next()
+    if (req.session && req.session.role === "admin") return next()
     else return res.sendStatus(401)
 }
 

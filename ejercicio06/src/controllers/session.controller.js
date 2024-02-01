@@ -6,18 +6,30 @@ const router = Router();
 
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
-    const result = await userModel.findOne({ email, password });
 
-    if (result === null) {
-        res.status(400).json({
-            error: "Usuario o contraseña incorrectos",
-        });
-    } else {
+    if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
         req.session.user = email;
         req.session.role = "admin";
         res.status(200).json({
             respuesta: "ok",
         });
+    } else {
+        const result = await userModel.findOne({ email, password });
+
+        if (result === null) {
+            res.status(400).json({
+                error: "Usuario o contraseña incorrectos",
+            });
+        } else {
+            req.session.user = email;
+            req.session.role = "user";
+
+            const { first_name, last_name } = result;
+            res.status(200).json({
+                respuesta: "ok",
+                user: { first_name, last_name },
+            });
+        }
     }
 });
 router.post("/signup", async (req, res) => {
@@ -59,7 +71,13 @@ router.get("/privado", auth, (req, res) => {
     res.render("topsecret", {
         title: "Privado",
         user: req.session.user,
+        style: "style.css",
     });
 });
+
+router.get("/logout", (req, res) => {
+    req.session.destroy();
+    res.redirect("/login");
+})
 
 export default router;

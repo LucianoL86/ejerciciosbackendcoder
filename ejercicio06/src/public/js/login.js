@@ -6,9 +6,18 @@ async function postLogin(email, password) {
         },
         body: JSON.stringify({ email, password }),
     });
+
     const data = await response.json();
+
     if (data.respuesta === "ok") {
-        window.location.href = "/privado";
+        if (data.user) {
+            const { first_name, last_name } = data.user;
+            alert(`¡Bienvenido, ${first_name} ${last_name}!`);
+        } else {
+            alert("¡Bienvenido, Administrador!");
+        }
+
+        window.location.href = "/products";
     } else {
         alert("Datos incorrectos");
     }
