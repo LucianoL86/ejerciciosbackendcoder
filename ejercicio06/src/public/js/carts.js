@@ -8,7 +8,7 @@ console.log(cartId);
 async function subtract(pid) {
     console.log("productID:", pid);
 
-    const URL = `/carts/${cartId}/product/${pid}`;
+    const URL = `/cart/${cartId}/product/${pid}`;
     console.log(URL);
 
     const response = await fetch(`${URL}`, {
@@ -20,7 +20,7 @@ async function subtract(pid) {
 async function add(pid) {
     console.log("productID:", pid);
 
-    const URL = `/carts/${cartId}/product/${pid}`;
+    const URL = `/cart/${cartId}/product/${pid}`;
     console.log(URL);
 
     const response = await fetch(URL, {
