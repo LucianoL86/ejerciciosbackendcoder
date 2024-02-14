@@ -11,5 +11,8 @@ const db = {
     name: process.env.DB_NAME
 }
 const cookieSecret = process.env.COOKIE_SECRET
+const clientID = process.env.GITHUB_CLIENT_ID
+const clientSecret = process.env.GITHUB_CLIENT_SECRET
+const callbackURL = process.env.GITHUB_CALLBACK_URL
 
-export { PORT, db, cookieSecret }
+export { PORT, db, cookieSecret, clientID, clientSecret, callbackURL }
