@@ -70,8 +70,6 @@ router.post("/signup", async (req, res) => {
                 error: "Error al crear el usuario",
             });
         } else {
-            req.session.user = email;
-            req.session.role = "admin";
             res.status(201).json({
                 respuesta: "Usuario creado con éxito",
             });
