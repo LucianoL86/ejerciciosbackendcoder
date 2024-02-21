@@ -8,6 +8,8 @@ import MongoStore from 'connect-mongo'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import { cookieSecret, db } from './config/index.config.js'
+import passport from 'passport'
+import initializePassport from './config/passport.config.js'
 
 const app = express()
 dotenv.config()
@@ -28,6 +30,11 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
 }))
+
+// Configuración de passport
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Configuración de motor de plantillas Handlebars
 app.engine('handlebars', handlebars.engine())

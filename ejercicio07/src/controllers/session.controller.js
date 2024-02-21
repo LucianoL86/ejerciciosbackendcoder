@@ -1,41 +1,18 @@
 import { Router } from 'express'
-import userModel from '../DAOs/mongodb/models/users.model.js'
 import { auth } from '../middleware/index.js'
-import { comparePassword, getHashedPassword } from '../utils.js'
+import passport from 'passport'
 
 const router = Router();
 
-router.post("/login", async (req, res) => {
+router.post("/login", passport.authenticate('login', {
+    successRedirect: '/products',
+    failureureRedirect: '/login'
+}), async (req, res) => {
     try {
-
-        const { email, password } = req.body;
-
-        if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
-            req.session.user = email;
-            req.session.role = "admin";
-            res.status(200).json({
-                respuesta: "ok",
-            });
-        } else {
-            const user = await userModel.findOne({ email });
-
-            if (user === null || !comparePassword(password, user.password)) {
-                res.status(400).json({
-                    error: "Usuario o contraseña incorrectos",
-                });
-            } else {
-                req.session.user = {
-                    email: user.email,
-                    role: user.role,
-                }
-                
-                const { first_name, last_name } = user;
-                res.status(200).json({
-                    respuesta: "ok",
-                    user: { first_name, last_name },
-                });
-            }
-        }
+        res.status(200).json({
+            respuesta: 'success',
+            message: "Sesión iniciada",
+        })
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -45,35 +22,15 @@ router.post("/login", async (req, res) => {
 })
 
 
-router.post("/signup", async (req, res) => {
+router.post("/signup", passport.authenticate('signup', {
+    successRedirect: '/login',
+    failureureRedirect: '/signup',
+}) ,async (req, res) => {
     try {
-        const { first_name, last_name, email, password, age } = req.body
-        const existingUser = await userModel.findOne({ email });
-
-        if (existingUser) {
-            res.status(400).json({
-                error: "El usuario ya existe",
-            });
-            return;
-        }
-
-        const newUser = await userModel.create({
-            first_name,
-            last_name,
-            age,
-            email,
-            password: getHashedPassword(password)
-        });
-
-        if (newUser === null) {
-            res.status(400).json({
-                error: "Error al crear el usuario",
-            });
-        } else {
-            res.status(201).json({
-                respuesta: "Usuario creado con éxito",
-            });
-        }
+        res.status(200).json({
+            respuesta: 'success',
+            message: 'User registered',
+        })
     } catch {
         res.status(500).json({
             error: "Error al registrar usuario",

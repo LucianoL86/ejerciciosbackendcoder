@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
         required: true,
         max: 100
     },
+    cart: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'cart',
+    },
     role: {
         type: String,
         required: true,
@@ -37,5 +41,4 @@ const userSchema = new mongoose.Schema({
 })
 
 const userModel = mongoose.model(userCollection, userSchema)
-
 export default userModel

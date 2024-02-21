@@ -22,4 +22,5 @@ cartSchema.pre(['find', 'findOne'], function () {
     this.populate({path: 'products.product', select: 'title price thumbnail'})
 })
 
-export const cartModel = mongoose.model(cartCollection, cartSchema)
+const cartModel = mongoose.model(cartCollection, cartSchema)
+export default cartModel
