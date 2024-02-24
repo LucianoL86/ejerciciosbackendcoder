@@ -76,6 +76,7 @@ const initializePassport = () => {
     
     passport.deserializeUser(async (id, done) => {
         const user = await userService.findById(id)
+        delete user.password
         done(null, user)
     })
 }

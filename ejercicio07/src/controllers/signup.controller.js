@@ -1,13 +1,13 @@
-import { Router } from 'express'
-import isAuthenticated from '../middleware/isAuthenticated.js'
+// import { Router } from 'express'
+// import isAuthenticated from '../middleware/isAuthenticated.js'
 
-const router = Router()
+// const router = Router()
 
-router.get('/', isAuthenticated, (req, res) => {
-    res.render('signup', {
-        title: 'Registrarse',
-        style: 'users.css'
-    })
-})
+// router.get('/', isAuthenticated, (req, res) => {
+//     res.render('signup', {
+//         title: 'Registrarse',
+//         style: 'users.css'
+//     })
+// })
 
-export default router
+// export default router
