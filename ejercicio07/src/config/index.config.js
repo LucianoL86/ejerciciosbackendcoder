@@ -10,9 +10,9 @@ const db = {
     host: process.env.DB_HOST,
     name: process.env.DB_NAME
 }
-const cookieSecret = process.env.COOKIE_SECRET
+const coderSecret = process.env.CODER_SECRET
 const clientID = process.env.GITHUB_CLIENT_ID
 const clientSecret = process.env.GITHUB_CLIENT_SECRET
 const callbackURL = process.env.GITHUB_CALLBACK_URL
 
-export { PORT, db, cookieSecret, clientID, clientSecret, callbackURL }
+export { PORT, db, coderSecret, clientID, clientSecret, callbackURL }

@@ -1,6 +1,6 @@
 const logout = document.getElementById('logout');
 logout.addEventListener('click', async () => {
-    await fetch('/session/logout', {
+    await fetch('/api/session/logout', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

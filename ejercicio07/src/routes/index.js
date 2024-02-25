@@ -5,7 +5,7 @@ import sessionController from '../controllers/session.controller.js'
 import viewsController from '../controllers/views.controller.js'
 
 const router = app => {
-    app.use('/session', sessionController)
+    app.use('/api/session', sessionController)
     app.use('/products', productsController)
     app.use('/cart', cartController)
     app.use('/chat', chatController)

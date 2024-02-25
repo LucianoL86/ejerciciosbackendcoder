@@ -7,7 +7,7 @@ import dotenv from 'dotenv'
 import MongoStore from 'connect-mongo'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
-import { cookieSecret, db } from './config/index.config.js'
+import { coderSecret, db } from './config/index.config.js'
 import passport from 'passport'
 import initializePassport from './config/passport.config.js'
 
@@ -18,7 +18,7 @@ dotenv.config()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
-app.use(cookieParser(cookieSecret))
+app.use(cookieParser(coderSecret))
 
 // Configuración de sesiones
 app.use(session({
@@ -26,7 +26,7 @@ app.use(session({
         mongoUrl: `mongodb+srv://${db.user}:${db.pass}@${db.host}/${db.name}`,
         ttl: 60,
     }),
-    secret: 'cookieSecret',
+    secret: 'coderSecret',
     resave: false,
     saveUninitialized: true,
 }))
