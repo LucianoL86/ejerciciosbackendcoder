@@ -7,16 +7,21 @@ async function postSignup(first_name, last_name, email, password, age) {
         age,
     };
 
-    const response = await fetch('/api/session/signup', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    });
+    try {
+        const response = await fetch('/api/session/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
 
-    const result = await response.json()
-    return result
+        const result = await response.json()
+        return result
+
+    } catch (error) {
+        return { success: false, message: 'El correo electrónico ya existe' }
+    }
 }
 
 const signupForm = document.getElementById('signup-form')
@@ -28,10 +33,11 @@ signupForm.addEventListener('submit', async (event) => {
     const email = document.getElementById('email').value
     const password = document.getElementById('password').value
     const age = document.getElementById('age').value
+
     const result = await postSignup(first_name, last_name, email, password, age)
     if (result.respuesta === 'success') {
         window.location.href = '/login'
     } else {
-        alert('Datos incorrectos')
+        alert(result.message)
     }
 })

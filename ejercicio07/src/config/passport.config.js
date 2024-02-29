@@ -20,6 +20,7 @@ const initializePassport = () => {
                 try {
                     const user = await userService.findOne({ email: username })
                     if (user) {
+                        req.signupSuccess = false
                         return done(null, false, { message: 'El usuario ya existe' })
                     }
 
@@ -32,6 +33,7 @@ const initializePassport = () => {
                     }
 
                     let result = await userService.create(newUser)
+                    req.signupSuccess = true
                     return done(null, result)
 
                 } catch (error) {
@@ -54,12 +56,15 @@ const initializePassport = () => {
                 try {
                     const user = await userService.findOne({ email: username })
                     if (!user) {
+                        req.loginSuccess = false
                         return done(null, false, { message: 'El usuario no existe' })
                     }
                     if (!comparePassword(password, user.password)) {
+                        req.loginSuccess = false
                         return done(null, false, { message: 'Contraseña incorrecta' })
                     }
 
+                    req.loginSuccess = true
                     return done(null, user)
 
                 } catch (error) {
